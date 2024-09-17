@@ -246,9 +246,12 @@ def after_bulk_delete(delete_context):
         for challenge in Challenges.query.filter_by(type="firstblood").all():
             FirstBloodValueChallenge.recalculate_awards(challenge)
 
+
+
 @event.listens_for(Session, "before_flush")
 def before_flush(session, flush_context, instances):
     Model = get_model()
+    print(f"Model: {Model}, type: {type(Model)}")  # Debugging line
 
     for instance in session.deleted:
         if isinstance(instance, Solves):
